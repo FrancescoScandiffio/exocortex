@@ -1,0 +1,52 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "exocortex",
+  "send_metrics": false,
+  "preview_urls": false,
+  "main": "src/index.ts",
+  "compatibility_date": "2025-03-10",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  // Secrets (set via wrangler secret put):
+  // GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, COOKIE_ENCRYPTION_KEY, STORAGE_ENCRYPTION_KEY, ALLOWED_USERNAMES
+  "migrations": [
+    {
+      "new_sqlite_classes": [
+        "ExocortexMCP"
+      ],
+      "tag": "v1"
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "class_name": "ExocortexMCP",
+        "name": "MCP_OBJECT"
+      }
+    ]
+  },
+  "kv_namespaces": [],
+  //populated by wrangler after KV create
+  "vars": {
+    "DATA_REPO": "exocortex-data",
+    // set the name of your data-repository
+    "DATA_REPO_OWNER": "",
+    "USER_TIMEZONE": "",
+    // required for get_time tool (e.g. "Europe/Rome", "America/New_York")
+    "USER_LOCALE": ""
+    // required for get_time tool (e.g. "en-US", "it-IT")
+  },
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true
+    },
+    "traces": {
+      "enabled": false
+    }
+  },
+  "dev": {
+    "port": 8788
+  }
+}
