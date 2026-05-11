@@ -90,12 +90,11 @@ app.post("/authorize", async (c) => {
 
         return redirectToGithub(c.req.raw, stateToken, Object.fromEntries(headers));
     } catch (error: any) {
-        console.error("POST /authorize error:", error);
+        console.error("POST /authorize error:", error instanceof Error ? error.message : String(error));
         if (error instanceof OAuthError) {
             return error.toResponse();
         }
-        // Unexpected non-OAuth error
-        return c.text(`Internal server error: ${error.message}`, 500);
+        return c.text("Internal server error", 500);
     }
 });
 
